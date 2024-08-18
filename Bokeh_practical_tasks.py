@@ -1,18 +1,23 @@
+# bokeh serve --show Bokeh_practical_tasks.py
+# kill -9 <pid>
 import pandas as pd
 import numpy as np
 import os
 from bokeh.io import show, curdoc
 from bokeh.models import ColumnDataSource, HoverTool, Select, FactorRange
 from bokeh.layouts import column, row
-from bokeh.plotting import figure, curdoc
+from bokeh.plotting import figure, output_file, save
 from bokeh.transform import factor_cmap
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+source_path = script_dir
 
 def prepare_data_for_processing():
 
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    source_path = script_dir + '/Titanic/'
+    #script_dir = os.path.dirname(os.path.abspath(__file__))
+    #source_path = script_dir + '/Titanic/'
 
-    df = pd.read_csv(source_path + 'Titanic-Dataset.csv')
+    df = pd.read_csv(source_path + '/Titanic/Titanic-Dataset.csv')
 
     # Handle missing values
     df['Age'].fillna(df['Age'].median(), inplace=True)
@@ -104,8 +109,11 @@ def age_group_survival(df_survived):
     # Arrange the layout
     layout = column(row(class_select, gender_select), p)
 
-    # Show the plot in a Bokeh server (if running as a standalone script)
+    # Display the plot in a Bokeh server
     curdoc().add_root(layout)
+
+    output_file(source_path + "/bokeh_plots/age_group_survival.html")  # Specify the output file name
+    save(layout)  # Save the layout to the file
 
     # For Jupyter Notebook or standalone script, use show(layout)
     show(layout)
@@ -190,8 +198,11 @@ def class_gender(df_survived):
     # Arrange the layout
     layout = column(row(class_select, gender_select), p)
 
-    # Show the plot in a Bokeh server (if running as a standalone script)
+    # Display the plot in a Bokeh server
     curdoc().add_root(layout)
+
+    output_file(source_path + "/bokeh_plots/class_gender.html")  # Specify the output file name
+    save(layout)  # Save the layout to the file
 
     # For Jupyter Notebook, use show(layout)
     show(layout)
@@ -265,6 +276,9 @@ def fare_vs_survival(df_survived):
 
     # Display the plot in a Bokeh server
     curdoc().add_root(layout)
+
+    output_file(source_path + "/bokeh_plots/fare_vs_survival.html")  # Specify the output file name
+    save(layout)  # Save the layout to the file
 
     # For Jupyter Notebook or standalone script, use show(layout)
     show(layout)
