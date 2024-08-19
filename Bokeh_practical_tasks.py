@@ -1,5 +1,7 @@
 # bokeh serve --show Bokeh_practical_tasks.py
 # kill -9 <pid>
+
+
 import pandas as pd
 import numpy as np
 import os
@@ -51,14 +53,14 @@ def age_group_survival(df_survived):
     age_group_survival = age_group_survival.reset_index()
     age_group_survival['AgeGroup'] = age_group_survival['AgeGroup'].astype(str)
 
-    # Convert the data to a ColumnDataSource for Bokeh
+    # Convert to ColumnDataSource for Bokeh
     source = ColumnDataSource(age_group_survival)
 
-    # Create the figure with string categories for x_range
+    # Figure craete
     p = figure(x_range=age_group_survival['AgeGroup'].unique().tolist(), height=500, width=700,
             title="Survival Rates by Age Group", toolbar_location=None, tools="")
 
-    # Add bars to the plot
+    # Add bars
     p.vbar(x='AgeGroup', top='Survived', width=0.9, source=source, color='skyblue')
 
     # Add hover tool
@@ -69,7 +71,6 @@ def age_group_survival(df_survived):
     ]
     p.add_tools(hover)
 
-    # Customize the plot
     p.y_range.start = 0
     p.yaxis.axis_label = "Survival Rate (%)"
     p.xaxis.axis_label = "Age Group"
@@ -109,14 +110,12 @@ def age_group_survival(df_survived):
     # Arrange the layout
     layout = column(row(class_select, gender_select), p)
 
-    # Display the plot in a Bokeh server
-    curdoc().add_root(layout)
+    curdoc().add_root(layout)  # Display the plot in a Bokeh server
 
     output_file(source_path + "/bokeh_plots/age_group_survival.html")  # Specify the output file name
     save(layout)  # Save the layout to the file
 
-    # For Jupyter Notebook or standalone script, use show(layout)
-    show(layout)
+    show(layout)   # For Jupyter Notebook or standalone script, use show(layout)
 
 
 
@@ -195,17 +194,14 @@ def class_gender(df_survived):
     class_select.on_change('value', lambda attr, old, new: update())
     gender_select.on_change('value', lambda attr, old, new: update())
 
-    # Arrange the layout
-    layout = column(row(class_select, gender_select), p)
+    layout = column(row(class_select, gender_select), p)   # Arrange the layout
 
-    # Display the plot in a Bokeh server
-    curdoc().add_root(layout)
+    curdoc().add_root(layout)    # Display the plot in a Bokeh server
 
     output_file(source_path + "/bokeh_plots/class_gender.html")  # Specify the output file name
     save(layout)  # Save the layout to the file
 
-    # For Jupyter Notebook, use show(layout)
-    show(layout)
+    show(layout)    # For Jupyter Notebook, use show(layout)
 
 
 
@@ -217,13 +213,13 @@ def class_gender(df_survived):
 #Fare vs. Survival: Create a scatter plot with Fare on the x-axis and survival status
 #on the y-axis, using different colors to represent different classes.
 def fare_vs_survival(df_survived):
-    # Convert 'Pclass' to string for better handling in Bokeh
+    # Convert 'Pclass' to str
     df_survived['Pclass'] = df_survived['Pclass'].astype(str)
 
     # Create a ColumnDataSource
     source = ColumnDataSource(df_survived)
 
-    # Create a color mapping for the different classes
+    # Create a color mapping for classes
     color_map = factor_cmap('Pclass', palette=['blue', 'green', 'red'], factors=['1', '2', '3'])
 
     # Create the figure
@@ -245,7 +241,6 @@ def fare_vs_survival(df_survived):
     ]
     p.add_tools(hover)
 
-    # Customize the legend
     p.legend.title = 'Class'
     p.legend.location = 'top_right'
 
@@ -274,14 +269,12 @@ def fare_vs_survival(df_survived):
     # Arrange the layout
     layout = column(row(class_select, gender_select), p)
 
-    # Display the plot in a Bokeh server
-    curdoc().add_root(layout)
+    curdoc().add_root(layout)      # Display the plot in a Bokeh server
 
     output_file(source_path + "/bokeh_plots/fare_vs_survival.html")  # Specify the output file name
     save(layout)  # Save the layout to the file
 
-    # For Jupyter Notebook or standalone script, use show(layout)
-    show(layout)
+    show(layout)      # For Jupyter Notebook or standalone script, use show(layout)
 
 
 
